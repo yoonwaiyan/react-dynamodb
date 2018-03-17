@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, Button, Icon } from 'antd';
 import ReactDataGrid from 'react-data-grid';
+import ReactPaginate from 'react-paginate';
 import AWS from 'aws-sdk';
 import credentials from './aws_credentials.json';
 AWS.config.update(credentials);
@@ -15,27 +16,13 @@ export default class TableView extends Component<Props> {
   state = {
     columnAttributes: [],
     rows: [],
-    minHeight: 500
+    minHeight: 500,
+    nextEvaluateKey: null,
+    loading: false
   };
 
   componentDidMount() {
-    const docClient = new AWS.DynamoDB.DocumentClient();
-    var params = {
-      TableName: this.props.match.params.name,
-      Limit: 200
-    };
-
-    docClient.scan(params, (err, data) => {
-      if (err) {
-        console.error('Unable to query. Error:', JSON.stringify(err, null, 2));
-      } else {
-        console.log('Query succeeded.');
-        this.setState({
-          rows: data.Items,
-          columnAttributes: this.getColumnAttributes(data.Items)
-        });
-      }
-    });
+    this.loadData();
   }
 
   getColumnAttributes = items => {
@@ -54,10 +41,36 @@ export default class TableView extends Component<Props> {
     return columnDefinitions;
   };
 
+  loadData = () => {
+    this.setState({ loading: true });
+
+    const docClient = new AWS.DynamoDB.DocumentClient();
+    var params = {
+      TableName: this.props.match.params.name,
+      Limit: 100,
+      ExclusiveStartKey: this.state.nextEvaluateKey
+    };
+
+    docClient.scan(params, (err, data) => {
+      if (err) {
+        console.error('Unable to query. Error:', JSON.stringify(err, null, 2));
+        this.setState({ loading: false });
+      } else {
+        console.log('Query succeeded.', data);
+        this.setState({
+          rows: data.Items,
+          columnAttributes: this.getColumnAttributes(data.Items),
+          nextEvaluateKey: data.LastEvaluatedKey,
+          loading: false
+        });
+      }
+    });
+  };
+
   render() {
     console.log('view props', this.props);
     const { match } = this.props;
-    const { rows, columnAttributes } = this.state;
+    const { rows, columnAttributes, loading } = this.state;
     return (
       <Layout>
         <Content>
@@ -72,7 +85,10 @@ export default class TableView extends Component<Props> {
             />
           </div>
           <div style={{ height: '5vh', padding: '5px 10px' }}>
-            {match.params.name}
+            {match.params.name}{' '}
+            <Button size={'small'} onClick={this.loadData} loading={loading}>
+              Next<Icon type="right" />
+            </Button>
           </div>
         </Content>
       </Layout>
