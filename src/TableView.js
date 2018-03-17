@@ -40,9 +40,18 @@ export default class TableView extends Component<Props> {
 
   getColumnAttributes = items => {
     let columns = [
-      ...new Set(items.reduce((x, y) => [...x, ...Object.keys(y)], []))
+      ...new Set(items.reduce((x, y) => [...x, ...Object.keys(y)], ['id']))
     ];
-    return columns.map(col => ({ key: col, name: col, resizable: true }));
+    const columnDefinitions = columns.map(col => ({
+      key: col,
+      name: col,
+      width: 170,
+      resizable: true
+    }));
+
+    console.log('column definitions', columnDefinitions);
+
+    return columnDefinitions;
   };
 
   render() {

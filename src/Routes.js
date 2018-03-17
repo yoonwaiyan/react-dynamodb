@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import TableList from './TableList';
 import TableView from './TableView';
 
-class App extends Component {
+class Routes extends Component {
   render() {
     return (
       <Router>
@@ -20,4 +20,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Routes;

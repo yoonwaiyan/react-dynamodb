@@ -31,7 +31,7 @@ export default class TableList extends Component<Props> {
     return (
       <List
         size="large"
-        header={<h3>Tables</h3>}
+        header={<h3>Select one table to view items:</h3>}
         bordered
         dataSource={tables}
         renderItem={table => (
