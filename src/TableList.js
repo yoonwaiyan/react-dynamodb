@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, List } from 'antd';
-import ReactDataGrid from 'react-data-grid';
+import { List } from 'antd';
 import { Link } from 'react-router-dom';
 import AWS from 'aws-sdk';
 import credentials from './aws_credentials.json';
-import { awsConfig } from './config.js';
 AWS.config.update(credentials);
-
-const { Content } = Layout;
-
-const gridStyle = {
-  width: '50%',
-  textAlign: 'center'
-};
 
 type Props = {};
 

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Layout, Card, Table, Icon, Divider } from 'antd';
+import { Layout } from 'antd';
 import ReactDataGrid from 'react-data-grid';
 import AWS from 'aws-sdk';
 import credentials from './aws_credentials.json';
-import { awsConfig } from './config.js';
 AWS.config.update(credentials);
 
 const { Content } = Layout;
@@ -22,7 +21,7 @@ export default class TableView extends Component<Props> {
   componentDidMount() {
     const docClient = new AWS.DynamoDB.DocumentClient();
     var params = {
-      TableName: awsConfig.tableName,
+      TableName: this.props.match.params.name,
       Limit: 200
     };
 
@@ -47,10 +46,8 @@ export default class TableView extends Component<Props> {
   };
 
   render() {
-    const { routerProps } = this.props;
     console.log('view props', this.props);
     const { rows, columnAttributes } = this.state;
-    console.log('rows', rows);
     return (
       <Content>
         <div style={{ height: '100vh' }}>
