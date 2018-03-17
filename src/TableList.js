@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List } from 'antd';
+import { List, Layout } from 'antd';
 import { Link } from 'react-router-dom';
 import AWS from 'aws-sdk';
 import credentials from './aws_credentials.json';
@@ -29,17 +29,21 @@ export default class TableList extends Component<Props> {
   render() {
     const { tables } = this.state;
     return (
-      <List
-        size="large"
-        header={<h3>Select one table to view items:</h3>}
-        bordered
-        dataSource={tables}
-        renderItem={table => (
-          <List.Item>
-            <Link to={`/tables/${table}`}>{table}</Link>
-          </List.Item>
-        )}
-      />
+      <Layout>
+        <Layout.Content>
+          <List
+            size="large"
+            header={<h3>Select one table to view items:</h3>}
+            bordered
+            dataSource={tables}
+            renderItem={table => (
+              <List.Item>
+                <Link to={`/tables/${table}`}>{table}</Link>
+              </List.Item>
+            )}
+          />
+        </Layout.Content>
+      </Layout>
     );
   }
 }

@@ -5,7 +5,7 @@ import AWS from 'aws-sdk';
 import credentials from './aws_credentials.json';
 AWS.config.update(credentials);
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 type Props = {};
 
@@ -56,20 +56,26 @@ export default class TableView extends Component<Props> {
 
   render() {
     console.log('view props', this.props);
+    const { match } = this.props;
     const { rows, columnAttributes } = this.state;
     return (
-      <Content>
-        <div style={{ height: '100vh' }}>
-          <ReactDataGrid
-            enableCellSelect={false}
-            columns={columnAttributes}
-            rowGetter={i => rows[i]}
-            rowsCount={rows.length}
-            rowHeight={45}
-            minHeight={this.state.minHeight}
-          />
-        </div>
-      </Content>
+      <Layout>
+        <Content>
+          <div style={{ height: '95vh' }}>
+            <ReactDataGrid
+              enableCellSelect={false}
+              columns={columnAttributes}
+              rowGetter={i => rows[i]}
+              rowsCount={rows.length}
+              rowHeight={45}
+              minHeight={this.state.minHeight}
+            />
+          </div>
+          <div style={{ height: '5vh', padding: '5px 10px' }}>
+            {match.params.name}
+          </div>
+        </Content>
+      </Layout>
     );
   }
 }

@@ -8,7 +8,7 @@ class AppContainer extends Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <SideBar />
-        <Content>{this.props.children}</Content>
+        {this.props.children}
       </Layout>
     );
   }
