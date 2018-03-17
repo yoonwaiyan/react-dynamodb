@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
 import { Form, Icon, Input, Button, Layout, Row, Col, Card } from 'antd';
+import AWS from 'aws-sdk';
+
 const FormItem = Form.Item;
 
 class Connect extends Component {
@@ -8,9 +10,7 @@ class Connect extends Component {
     const {
       values,
       errors,
-      touched,
       handleChange,
-      handleBlur,
       handleSubmit,
       isSubmitting
     } = this.props;
@@ -30,19 +30,28 @@ class Connect extends Component {
                 <Form onSubmit={handleSubmit}>
                   <FormItem label="Access Key ID">
                     <Input
+                      name="accessKeyId"
                       placeholder="Access Key ID"
-                      values={values.accessKeyId}
+                      onChange={handleChange}
+                      value={values.accessKeyId}
                     />
                   </FormItem>
                   <FormItem label="Secret Access Key">
                     <Input
+                      name="secretAccessKey"
                       type="password"
                       placeholder="Secret Access Key"
-                      values={values.secretAccessKey}
+                      onChange={handleChange}
+                      value={values.secretAccessKey}
                     />
                   </FormItem>
                   <FormItem label="Region">
-                    <Input placeholder="Region" values={values.region} />
+                    <Input
+                      name="region"
+                      placeholder="Region"
+                      onChange={handleChange}
+                      value={values.region}
+                    />
                   </FormItem>
                   <FormItem>
                     <Button
@@ -64,8 +73,13 @@ class Connect extends Component {
 }
 
 const form = {
+  mapPropsToValues: props => ({
+    accessKeyId: '',
+    secretAccessKey: '',
+    region: 'us-east-1'
+  }),
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-    console.log('values', values);
+    AWS.config.update(values);
   }
 };
 
