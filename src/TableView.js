@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Layout, Button, Icon } from 'antd';
 import ReactDataGrid from 'react-data-grid';
-import ReactPaginate from 'react-paginate';
 import AWS from 'aws-sdk';
+import Loading from './util/Loading';
 import credentials from './aws_credentials.json';
 AWS.config.update(credentials);
 
@@ -71,18 +71,23 @@ export default class TableView extends Component<Props> {
     console.log('view props', this.props);
     const { match } = this.props;
     const { rows, columnAttributes, loading } = this.state;
+
     return (
       <Layout>
         <Content>
           <div style={{ height: '95vh' }}>
-            <ReactDataGrid
-              enableCellSelect={false}
-              columns={columnAttributes}
-              rowGetter={i => rows[i]}
-              rowsCount={rows.length}
-              rowHeight={45}
-              minHeight={this.state.minHeight}
-            />
+            {loading ? (
+              <Loading />
+            ) : (
+              <ReactDataGrid
+                enableCellSelect={false}
+                columns={columnAttributes}
+                rowGetter={i => rows[i]}
+                rowsCount={rows.length}
+                rowHeight={45}
+                minHeight={this.state.minHeight}
+              />
+            )}
           </div>
           <div style={{ height: '5vh', padding: '5px 10px' }}>
             {match.params.name}{' '}

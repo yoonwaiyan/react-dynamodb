@@ -11,10 +11,12 @@ export default class TableList extends Component<Props> {
   props: Props;
 
   state = {
+    loading: false,
     tables: []
   };
 
   componentDidMount() {
+    this.setState({ loading: true });
     const dynamodb = new AWS.DynamoDB();
     dynamodb.listTables({}, (err, data) => {
       if (err) console.log(err, err.stack);
@@ -23,15 +25,17 @@ export default class TableList extends Component<Props> {
         console.log(data); // successful response
         this.setState({ tables: data.TableNames });
       }
+      this.setState({ loading: false });
     });
   }
 
   render() {
-    const { tables } = this.state;
+    const { tables, loading } = this.state;
     return (
       <Layout>
         <Layout.Content>
           <List
+            loading={loading}
             size="large"
             header={<h3>Select one table to view items:</h3>}
             bordered
