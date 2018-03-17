@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 const { Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class SideBar extends Component {
   state = {

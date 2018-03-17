@@ -9,11 +9,11 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 const App = () => (
-	<Router>
-		<AppContainer>
-			<Routes />
-		</AppContainer>
-	</Router>
+  <Router>
+    <AppContainer>
+      <Routes />
+    </AppContainer>
+  </Router>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
