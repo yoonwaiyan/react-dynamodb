@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Layout } from 'antd';
+import { List, Layout, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import AWS from 'aws-sdk';
 
@@ -17,8 +17,14 @@ export default class TableList extends Component<Props> {
     this.setState({ loading: true });
     const dynamodb = new AWS.DynamoDB();
     dynamodb.listTables({}, (err, data) => {
-      if (err) console.log(err, err.stack);
-      else {
+      if (err) {
+        console.log(err, err.stack);
+        notification.error({
+          message: err.message,
+          description: 'Please try again.',
+          duration: 0
+        });
+      } else {
         // an error occurred
         console.log(data); // successful response
         this.setState({ tables: data.TableNames });

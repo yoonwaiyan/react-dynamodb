@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Button, Icon } from 'antd';
+import { Layout, Button, Icon, notification } from 'antd';
 import ReactDataGrid from 'react-data-grid';
 import AWS from 'aws-sdk';
 import Loading from './util/Loading';
@@ -52,6 +52,11 @@ export default class TableView extends Component<Props> {
     docClient.scan(params, (err, data) => {
       if (err) {
         console.error('Unable to query. Error:', JSON.stringify(err, null, 2));
+        notification.error({
+          message: err.message,
+          description: 'Please try again.',
+          duration: 0
+        });
         this.setState({ loading: false });
       } else {
         console.log('Query succeeded.', data);
