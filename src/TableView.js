@@ -3,8 +3,6 @@ import { Layout, Button, Icon } from 'antd';
 import ReactDataGrid from 'react-data-grid';
 import AWS from 'aws-sdk';
 import Loading from './util/Loading';
-import credentials from './aws_credentials.json';
-AWS.config.update(credentials);
 
 const { Content, Footer } = Layout;
 

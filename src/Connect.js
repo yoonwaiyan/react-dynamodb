@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withFormik } from 'formik';
 import { Form, Icon, Input, Button, Layout, Row, Col, Card } from 'antd';
 import AWS from 'aws-sdk';
+import { withRouter } from 'react-router-dom';
 
 const FormItem = Form.Item;
 
@@ -80,7 +81,8 @@ const form = {
   }),
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
     AWS.config.update(values);
+    props.history.push('/tables');
   }
 };
 
-export default withFormik(form)(Connect);
+export default withRouter(withFormik(form)(Connect));

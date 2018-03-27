@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { List, Layout } from 'antd';
 import { Link } from 'react-router-dom';
 import AWS from 'aws-sdk';
-import credentials from './aws_credentials.json';
-AWS.config.update(credentials);
 
 type Props = {};
 
