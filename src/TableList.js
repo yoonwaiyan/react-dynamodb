@@ -24,6 +24,9 @@ export default class TableList extends Component<Props> {
           description: 'Please try again.',
           duration: 0
         });
+        if (err.code === 'ConfigError') {
+          this.props.history.push('/');
+        }
       } else {
         // an error occurred
         console.log(data); // successful response

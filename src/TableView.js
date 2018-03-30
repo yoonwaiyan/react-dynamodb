@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Button, Icon, notification } from 'antd';
 import ReactDataGrid from 'react-data-grid';
+import { withRouter } from 'react-router-dom';
 import AWS from 'aws-sdk';
 import Loading from './util/Loading';
 
@@ -8,7 +9,7 @@ const { Content, Footer } = Layout;
 
 type Props = {};
 
-export default class TableView extends Component<Props> {
+class TableView extends Component<Props> {
   props: Props;
 
   state = {
@@ -58,6 +59,9 @@ export default class TableView extends Component<Props> {
           duration: 0
         });
         this.setState({ loading: false });
+        if (err.code === 'ConfigError') {
+          this.props.history.push('/');
+        }
       } else {
         console.log('Query succeeded.', data);
         this.setState({
@@ -103,3 +107,5 @@ export default class TableView extends Component<Props> {
     );
   }
 }
+
+export default withRouter(TableView);
